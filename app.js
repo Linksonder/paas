@@ -1,8 +1,16 @@
+require('dotenv').config()
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+
+let db = require('./config/database');
+require('./model/Field');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -21,6 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+require('./domain/fieldManager').setSeed('A');
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
